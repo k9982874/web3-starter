@@ -1,5 +1,9 @@
 import { z } from 'zod';
 import { publicProcedure, router } from '@/server/trpc';
+
+import { alchemy } from '@/lib/alchemy';
+import { AssetTransfersCategory, SortingOrder } from 'alchemy-sdk';
+
 import { prisma } from '@/lib/db';
 
 export const accountRouter = router({
@@ -38,5 +42,28 @@ export const accountRouter = router({
       });
 
       return account.id;
+    }),
+  transactions: publicProcedure
+    .input(
+      z.object({
+        address: z.string(),
+      }),
+    )
+    .query(async ({ input }) => {
+      const resp = await alchemy.core.getAssetTransfers({
+        fromBlock: "0x0",
+        toBlock: "latest",
+        fromAddress: input.address,
+        order: SortingOrder.DESCENDING,
+        excludeZeroValue: true,
+        category: [
+          AssetTransfersCategory.EXTERNAL,
+          AssetTransfersCategory.ERC20,
+          AssetTransfersCategory.ERC721,
+          AssetTransfersCategory.ERC1155,
+          AssetTransfersCategory.SPECIALNFT,
+        ],
+      });
+      return resp;
     }),
 });

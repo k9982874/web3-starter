@@ -4,16 +4,20 @@ import {
   useDisconnect,
 } from 'wagmi'
 
+import Link from 'next/link'
+
 import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { useToast } from './ui/use-toast'
+import { useToast } from '@/hooks/use-toast'
 
 import { Loader2, LogOut, User } from "lucide-react"
 import { trpc } from '@/lib/trpc'
@@ -51,6 +55,14 @@ export function MainMenu() {
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56">
+          <DropdownMenuGroup>
+            <DropdownMenuItem>
+              <User className="mr-2 h-4 w-4" />
+              <Link href="/profile">Profile</Link>
+              <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
           <DropdownMenuItem>
             <LogOut className="mr-2 h-4 w-4" />
             <span onClick={() => disconnect()}>

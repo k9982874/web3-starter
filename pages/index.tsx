@@ -4,27 +4,8 @@ import { Layout } from "@/components/layout"
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import { trpc } from '@/lib/trpc'
-import { useAccount } from "wagmi";
-import { useEffect } from "react";
 
 export default function IndexPage() {
-  const { address } = useAccount()
-
-  const { data } = trpc.ping.ping.useQuery({
-    address: address as string
-  }, {
-    enabled: address !== undefined
-  })
-
-  useEffect(() => {
-    console.log(address)
-  }, [ address ])
-
-  useEffect(() => {
-    console.log(data)
-  }, [ data ])
-
   return (
     <Layout>
       <Head>

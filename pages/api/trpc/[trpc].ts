@@ -7,12 +7,10 @@ import { z } from 'zod';
 import { publicProcedure, router } from '@/server/trpc';
 
 import {
-  pingRouter,
   accountRouter,
 } from '@/server/api';
 
 const appRouter = router({
-  ping: pingRouter,
   account: accountRouter,
 });
 
